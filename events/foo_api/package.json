@@ -1,7 +1,7 @@
 {
-  "name": "api-nodejs-template",
+  "name": "foo_api",
   "version": "0.0.1",
-  "description": "Nodejs Template project",
+  "description": "API for our foo service to explore events",
   "main": "index.js",
   "private": true,
   "author": "suryajak",
