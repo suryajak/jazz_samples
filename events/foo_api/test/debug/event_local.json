@@ -1,6 +1,8 @@
 {
     "stage" : "dev",
     "query" : {},
-    "body" : {}
+    "body" : {},
+    "method": "get",
+    "path": "/test"
   }
   
