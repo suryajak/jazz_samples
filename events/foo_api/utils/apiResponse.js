@@ -1,14 +1,19 @@
-function ApiResponse(callback) {
-    this.cb = callback;
-}
+class ApiResponse {
+    constructor(callback) {
+        this.cb = callback;
+    }
 
-ApiResponse.prototype.send = function(error, responseObject) {
-    
-    if(this.cb) {
-        if (error) {
-            return this.cb(error);
-        }else {
+    send(responseObject) {
+        if (this.cb) {
             return this.cb(null, responseObject);
+        }
+    }
+
+    error(error) {
+        if (this.cb) {
+            if (error) {
+                return this.cb(error);
+            }
         }
     }
 }

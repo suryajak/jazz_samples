@@ -49,15 +49,18 @@ function updateDocumentDB(req, res) {
     docClient.put(params, function(err, data) {
       if (err) {
         logger.error(err);
+        return res.error(err);
       } else {
-        return cb(null, responseObj(data, {inputRecords: records.length}));
+        return res.send(responseObj(data, {inputRecords: records.length}));
       }
     });
     
-    res.send(null, responseObj({resp: "custom response"}, {inputQuery: req.query, inputHeaders: req.headers}));
+    res.send(responseObj({resp: "custom response"}, {inputQuery: req.query, inputHeaders: req.headers}));
+  } else {
+    res.send(responseObj({resp: "standard response"}, {inputQuery: req.query, inputHeaders: req.headers}));
   }
 }
 
 function updateApi(req, res) {
-  res.send(null, responseObj({resp: "Successfully called updateAPI"}, {input: req.body}));
+  res.send(responseObj({resp: "Successfully called updateAPI"}, {input: req.body}));
 }
