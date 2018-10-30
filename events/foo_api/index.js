@@ -1,5 +1,5 @@
 /**
-Nodejs Template Project
+Sample Nodejs Project for APIs
 @author:
 @version: 1.0
  **/
@@ -17,8 +17,8 @@ const logger = require("./components/logger.js");
 const errorHandler = errorHandlerModule();
 
 let api = new apiHelper();
-api.get('/sendm', updateDocumentDB);
-api.post('/update', updateApi);
+api.get('/config', getConfig);
+api.post('/config', updateConfig);
 
 module.exports.handler = (event, context, cb) => {
 
@@ -28,39 +28,22 @@ module.exports.handler = (event, context, cb) => {
     logger.init(event, context);
     logger.info(dateFormatter.epochNow());
 
-    return api.run(event, cb);
+    return api.run(event, config, cb);
   } catch (e) {
     logger.error(e);
     return cb(JSON.stringify(errorHandler.throwInternalServerError("Sample error message")));
   }
 };
 
-function updateDocumentDB(req, res) {
+function getConfig(config, req, res) {
   if (req.query.i == 1) {
-    let docClient = new AWS.DynamoDB.DocumentClient();
-    var params = {
-      TableName: "test_table",
-      Item: {
-        "pKey": "This is my test sample",
-        "column1": dateFormatter.epochNow()
-      }
-    };
-    
-    docClient.put(params, function(err, data) {
-      if (err) {
-        logger.error(err);
-        return res.error(err);
-      } else {
-        return res.send(responseObj(data, {inputRecords: records.length}));
-      }
-    });
-    
-    res.send(responseObj({resp: "custom response"}, {inputQuery: req.query, inputHeaders: req.headers}));
+    res.send(responseObj({resp: "custom response for query parameter with i as 1", configObj: config}, {inputQuery: req.query, inputHeaders: req.headers}));
   } else {
-    res.send(responseObj({resp: "standard response"}, {inputQuery: req.query, inputHeaders: req.headers}));
+    res.send(responseObj({resp: "standard response for getConfig"}, {inputQuery: req.query, inputHeaders: req.headers}));
   }
 }
 
-function updateApi(req, res) {
-  res.send(responseObj({resp: "Successfully called updateAPI"}, {input: req.body}));
+function updateConfig(config, req, res) {
+  logger.info(`config object is ${config}`);
+  res.send(responseObj({resp: "Successfully called updateConfig"}, {input: req.body}));
 }

@@ -5,7 +5,7 @@ class ApiHelper {
         this.routes = {};
     }
 
-    run(event, callback) {
+    run(event, config, callback) {
         let req = {};
     
         if (event) {
@@ -20,7 +20,7 @@ class ApiHelper {
             let response = new apiResponse(callback);
 
             if (this.routes[req.method][req.path]) {// exact match
-                this.routes[req.method][req.path]["handler"](req, response);
+                this.routes[req.method][req.path]["handler"](config, req, response);
             }
         }
     }

@@ -11,7 +11,7 @@
     "https"
   ],
   "paths": {
-    "/{service_name}": {
+    "/{service_name}/config": {
       "options": {
         "description": "CORS Support",
         "consumes": [
@@ -90,7 +90,7 @@
         }
       },
       "get": {
-        "description": "Node Js template service Get Method",
+        "description": "API to get config",
         "consumes": [
           "application/json"
         ],
@@ -294,7 +294,7 @@
         }
       },
       "post": {
-        "description": "Post method swagger for Node template",
+        "description": "Post method for updating config",
         "parameters": [{
           "name": "param",
           "in": "body",

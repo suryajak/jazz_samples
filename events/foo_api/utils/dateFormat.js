@@ -1,42 +1,34 @@
 const moment = require("moment");
 
-function dateToEpoch(date) {
-    return moment(date).valueOf();
+class DateFormat {
+    
+    static toEpoch(date) {
+        return moment(date).valueOf();
+    }
+
+    static toYear(date) {
+        return moment(date).format('YYYY');
+    }
+
+    static toMonth(date) {
+        return moment(date).format('MMM YYYY');
+    }
+
+    static toWeek(date) {
+        return moment(date).format('GGGG-[W]WW');
+    }
+
+    static toDay(date) {
+        return moment(date).format('YYYY-MM-DD');
+    }
+
+    static beautify(date) {
+        return moment(date).format('Do MMMM YYYY');
+    }
+
+    static epochNow() {
+        return moment().valueOf();
+    }
 }
 
-function dateToYear(date) {
-    return moment(date).format('YYYY');
-}
-
-function dateToYear(date) {
-    return moment(date).format('YYYY');
-}
-
-function dateToMonth(date) {
-    return moment(date).format('MMM YYYY');
-}
-
-function dateToWeek(date) {
-    return moment(date).format('GGGG-[W]WW');
-}
-
-function dateToDay(date) {
-    return moment(date).format('YYYY-MM-DD');
-}
-
-function dateBeautify(date) {
-    return moment(date).format('Do MMMM YYYY');
-}
-
-function epochNow() {
-    return moment().valueOf();
-}
-module.exports = {
-	dateToEpoch,
-	dateToYear,
-	dateToMonth,
-	dateToWeek,
-	dateToDay,
-	dateBeautify,
-	epochNow
-};
+module.exports = DateFormat;
