@@ -3,6 +3,6 @@
     "query" : { "i": 2},
     "body" : {},
     "method": "get",
-    "path": "/sendm"
+    "path": "/config"
   }
   

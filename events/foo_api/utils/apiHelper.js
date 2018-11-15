@@ -1,17 +1,28 @@
+/**
+	@module: apiHelper.js
+    @description: helper module to parse and process api requests
+	@author:
+	@version: 1.0
+**/
 const apiResponse = require("./apiResponse");
+const errorHandlerModule = require("../components/error-handler"); 
 
 class ApiHelper {
     constructor() {
         this.routes = {};
+        this.errorHandler = errorHandlerModule();
     }
 
     run(event, config, callback) {
         let req = {};
     
         if (event) {
+            // path for prod /api/{namespace}/{service_name} and for non-prod /api/{env_id}/{namespace}/{service_name}
+            let requestPathIndex = config && config.env && config.env === 'dev' ? 5: 4;  
+
             req.method = event.method.toLowerCase();
             req.query = event.query;
-            req.path = event.path;
+            req.path = `/${event.resourcePath.split('/').splice(requestPathIndex).join("/")}`;
             req.headers = event.headers;
             req.rawBody = event.body;
         }
@@ -21,6 +32,8 @@ class ApiHelper {
 
             if (this.routes[req.method][req.path]) {// exact match
                 this.routes[req.method][req.path]["handler"](config, req, response);
+            }else {
+                return callback(JSON.stringify(this.errorHandler.throwInternalServerError("No handler matches path " + req.path)));
             }
         }
     }
@@ -47,10 +60,10 @@ class ApiHelper {
         } 
     
         if (routes[method][path]) {
-            routes[method][path][handler] = fn;
+            routes[method][path]["handler"] = fn;
         } else {
             routes[method][path] = {
-                handler: fn
+                "handler": fn
             };
         }
     }

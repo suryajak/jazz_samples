@@ -26,6 +26,8 @@ const getStageConfig = (event, context) => {
     } else if (fnName.endsWith('prod')) {
       stage = 'prod';
     }
+
+    configObj.env = stage;
   }
 
   if (stage) {
@@ -33,6 +35,7 @@ const getStageConfig = (event, context) => {
 
     if (fs.existsSync(configFile)) {
       configObj = JSON.parse(fs.readFileSync(configFile));
+
     }
   }
 

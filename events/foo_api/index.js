@@ -17,6 +17,7 @@ const logger = require("./components/logger.js");
 const errorHandler = errorHandlerModule();
 
 let api = new apiHelper();
+api.get('/', handleBase);
 api.get('/config', getConfig);
 api.post('/config', updateConfig);
 
@@ -46,4 +47,9 @@ function getConfig(config, req, res) {
 function updateConfig(config, req, res) {
   logger.info(`config object is ${config}`);
   res.send(responseObj({resp: "Successfully called updateConfig"}, {input: req.body}));
+}
+
+function handleBase(config, req, res) {
+  logger.info(`Base path called`);
+  res.send(responseObj({resp: "Base path called."}, {input: req.body}));
 }
