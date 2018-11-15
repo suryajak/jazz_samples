@@ -18,22 +18,23 @@ class ApiHelper {
     
         if (event) {
             // path for prod /api/{namespace}/{service_name} and for non-prod /api/{env_id}/{namespace}/{service_name}
-            let requestPathIndex = config && config.env && config.env === 'dev' ? 5: 4;  
+            let servicePathBaseIndex = config && config.env && config.env === 'dev' ? 5: 4;  
+            let relativePathArray = event && event.resourcePath ? event.resourcePath.split('/').splice(servicePathBaseIndex) : []; 
 
             req.method = event.method.toLowerCase();
             req.query = event.query;
-            req.path = `/${event.resourcePath.split('/').splice(requestPathIndex).join("/")}`;
+            req.path = `/${relativePathArray.join("/")}`;
             req.headers = event.headers;
             req.rawBody = event.body;
         }
 
         if (this.routes[req.method]){
             let response = new apiResponse(callback);
-
+            
             if (this.routes[req.method][req.path]) {// exact match
                 this.routes[req.method][req.path]["handler"](config, req, response);
             }else {
-                return callback(JSON.stringify(this.errorHandler.throwInternalServerError("No handler matches path " + req.path)));
+                return callback(JSON.stringify(this.errorHandler.throwNotFoundError("No handler matches path " + req.path)));
             }
         }
     }
