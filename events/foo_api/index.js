@@ -1,12 +1,12 @@
 /**
-Sample Nodejs Project for APIs
-@author:
+NodeJS Project for APIs
+@author: suryajak
 @version: 1.0
  **/
 
 const AWS = require('aws-sdk');
 const dateFormatter = require("./utils/dateFormat");
-const apiHelper = require("./utils/apiHelper.js");
+const apiHelper = require("./api/apiHelper.js");
 
 const errorHandlerModule = require("./components/error-handler.js");
 const responseObj = require("./components/response.js");

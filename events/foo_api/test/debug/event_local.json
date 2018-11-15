@@ -1,6 +1,6 @@
 {
-    "stage" : "dev",
-    "resourcePath": "/api/logicalId/foo/bar/config",
+    "stage" : "prod",
+    "resourcePath": "/api/foo/bar/config",
     "query" : { "i": 1},
     "body" : {},
     "method": "get"

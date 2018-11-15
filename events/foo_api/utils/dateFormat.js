@@ -1,3 +1,10 @@
+/**
+	@module: dateFormat.js
+    @description: helper functions for date formatting
+	@author: suryajak
+	@version: 1.0
+**/
+
 const moment = require("moment");
 
 class DateFormat {

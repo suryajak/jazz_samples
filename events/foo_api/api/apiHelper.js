@@ -1,7 +1,7 @@
 /**
 	@module: apiHelper.js
     @description: helper module to parse and process api request
-	@author:
+	@author: suryajak
 	@version: 1.0
 **/
 const apiResponse = require("./apiResponse");

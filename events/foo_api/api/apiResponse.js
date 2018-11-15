@@ -1,3 +1,9 @@
+/**
+	@module: ApiResponse.js
+    @description: Class to handle API Responses
+	@author: suryajak
+	@version: 1.0
+**/
 class ApiResponse {
     constructor(callback) {
         this.cb = callback;
