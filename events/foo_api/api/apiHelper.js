@@ -5,11 +5,12 @@
 	@version: 1.0
 **/
 const apiResponse = require("./apiResponse");
+const router = require("./router");
 const errorHandlerModule = require("../components/error-handler"); 
 
 class ApiHelper {
     constructor() {
-        this.routes = {};
+        this.router = new router();
         this.errorHandler = errorHandlerModule();
     }
 
@@ -27,46 +28,31 @@ class ApiHelper {
             req.headers = event.headers;
             req.rawBody = event.body;
         }
+        let handler = this.router.resolve(req.method, req.path);
 
-        if (this.routes[req.method]){
+        if (handler){
             let response = new apiResponse(callback);
             
-            if (this.routes[req.method][req.path]) {// exact match
-                this.routes[req.method][req.path]["handler"](config, req, response);
-            }else {
-                return callback(JSON.stringify(this.errorHandler.throwNotFoundError("No handler matches path " + req.path)));
-            }
+            handler(config, req, response);
+        }else {
+            return callback(JSON.stringify(this.errorHandler.throwNotFoundError("No handler matches path " + req.path)));
         }
     }
 
     get(path, fn) {
-        this.addRoute(this.routes, "get", path, fn);
+        this.router.add("get", path, fn);
     }
 
     post(path, fn) {
-        this.addRoute(this.routes, "post", path, fn);
+        this.router.add("post", path, fn);
     }
 
     put(path, fn) {
-        this.addRoute(this.routes, "put", path, fn);
+        this.router.add("put", path, fn);
     }
 
     delete(path, fn) {
-        this.addRoute(this.routes, "delete", path, fn);
-    }
-
-    addRoute(routes, method, path, fn) {
-        if (!routes[method]) {
-            routes[method] = {};
-        } 
-    
-        if (routes[method][path]) {
-            routes[method][path]["handler"] = fn;
-        } else {
-            routes[method][path] = {
-                "handler": fn
-            };
-        }
+        this.router.add("delete", path, fn);
     }
 }
 

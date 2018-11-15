@@ -1,7 +1,7 @@
 {
     "stage" : "prod",
-    "resourcePath": "/api/foo/bar/config",
-    "query" : { "i": 1},
+    "resourcePath": "/api/logicalid/foo/bar/config1",
+    "query" : { "i": 2},
     "body" : {},
     "method": "get"
 }
