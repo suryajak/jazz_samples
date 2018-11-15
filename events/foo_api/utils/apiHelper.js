@@ -1,6 +1,6 @@
 /**
 	@module: apiHelper.js
-    @description: helper module to parse and process api requests
+    @description: helper module to parse and process api request
 	@author:
 	@version: 1.0
 **/

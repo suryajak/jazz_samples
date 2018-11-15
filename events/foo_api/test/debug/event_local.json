@@ -1,8 +1,8 @@
 {
     "stage" : "dev",
-    "query" : { "i": 2},
+    "resourcePath": "/api/logicalId/foo/bar/config",
+    "query" : { "i": 1},
     "body" : {},
-    "method": "get",
-    "path": "/config"
-  }
+    "method": "get"
+}
   

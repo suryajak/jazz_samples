@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 
 const getStageConfig = (event, context) => {
-  let stage, configObj;
+  let stage, configObj = {};
 
   if (event && event.stage) {
     stage = event.stage;
@@ -26,8 +26,6 @@ const getStageConfig = (event, context) => {
     } else if (fnName.endsWith('prod')) {
       stage = 'prod';
     }
-
-    configObj.env = stage;
   }
 
   if (stage) {
@@ -35,9 +33,10 @@ const getStageConfig = (event, context) => {
 
     if (fs.existsSync(configFile)) {
       configObj = JSON.parse(fs.readFileSync(configFile));
-
     }
   }
+
+  configObj.env = stage;
 
   return configObj;
 };
