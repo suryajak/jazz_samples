@@ -22,6 +22,9 @@ module.exports.handler = (event, context, cb) => {
       whitelistedServices = getWhitelistedServicesMap(config.WHITELIST_SERVICES);
     })
     .then(() => {
+      return dbbUtil(config.DDB_REGION, config.JAZZ_INSTANCE_PREFIX + "_services_prod", config.SERVICE_FILTER_PARAMS, config.SERVICE_RETURN_FIELDS, {"status": "active"});
+    })
+    .then(() => {
       return cb(null,  {message: "Finished running cleanup"});
     })
     .catch(function(err) {
@@ -89,8 +92,12 @@ function validateInput(configData) {
   });
 } 
 
+/**
+ * get map of whitelisted services
+ * @param {*} whitelistedServices 
+ */
 function getWhitelistedServicesMap(whitelistedServices) {
-  return config.WHITELIST_SERVICES.split(';').map(a => a.split(':')).reduce(function(map, obj) 
+  return whitelistedServices.split(';').map(a => a.split(':')).reduce(function(map, obj) 
     {
       if (!map[obj[0]]) {
         map[obj[0]] = obj[1];
