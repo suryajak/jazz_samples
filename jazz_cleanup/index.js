@@ -4,9 +4,16 @@
 	@version: 1.0
 **/
 
+const AWS = require('aws-sdk');
+const rp = require('request-promise-native');
+const moment = require('moment');
+const _ = require("lodash");
+
 const configModule = require("./components/config.js");
 const logger = require("./components/logger.js");
 const errorHandlerModule = require("./components/error-handler.js");
+const dbbUtil = require('./components/ddbScan');
+
 
 module.exports.handler = (event, context, cb) => {
 
