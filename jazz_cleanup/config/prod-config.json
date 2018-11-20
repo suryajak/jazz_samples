@@ -1,3 +1,14 @@
 {
-  "configKey":"ConfigValueProd"
+  "ADMIN_USERNAME" : "{Jazz_Admin_UserName}",
+  "ADMIN_PASSWORD" : "{Jazz_Admin_Password}",
+  "WHITELIST_SERVICES": "jazz:*;",
+  "JAZZ_INSTANCE_PREFIX": "{Jazz_Instance_Prefix}",
+  "SERVICE_FILTER_PARAMS": ["status"],
+  "SERVICE_RETURN_FIELDS": ["service", "domain"],
+  "DDB_REGION" : "{JAZZ_REGION}",
+  "SERVICE_EXPIRY_HOURS": 48,
+  "JAZZ_SERVICE_HOST": "{JAZZ_API_ENDPOINT}",
+  "JAZZ_LOGIN_API": "/prod/jazz/login",
+  "JAZZ_DELETE_API": "/prod/jazz/delete-serverless-service",
+  "MAX_SERVICES_TO_DELETE": 5
 }
