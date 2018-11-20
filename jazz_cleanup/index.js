@@ -24,8 +24,54 @@ module.exports.handler = (event, context, cb) => {
     .then(() => {
       return dbbUtil(config.DDB_REGION, config.JAZZ_INSTANCE_PREFIX + "_services_prod", config.SERVICE_FILTER_PARAMS, config.SERVICE_RETURN_FIELDS, {"status": "active"});
     })
-    .then(() => {
-      return cb(null,  {message: "Finished running cleanup"});
+    .then(function(servicesInfo){
+      if (servicesInfo) {
+        var today = new Date();
+        var maxCreatedDate = today.setHours(today.getHours() - config.SERVICE_EXPIRY_HOURS);
+        let rslt = [];
+
+        for (let service of servicesInfo) {
+          if (rslt.length >= config.MAX_SERVICES_TO_DELETE) {
+            break;
+          }
+
+          if (service.domain &&  moment(service.timestamp, 'YYYY-MM-DDTHH:mm:ss:SSS').isBefore(maxCreatedDate)) {
+            // service is beyond its expiry date, lets check if it is whitelisted
+            if (whitelistedServices[service.domain]) {
+              if (whitelistedServices[service.domain] != '*') {
+                var wsServices = whitelistedServices[service.domain].split(',');
+                if (!_.includes(wsServices, service.service)) {
+                  rslt.push({"d": service.domain, "s": service.service});
+                }
+              }
+            } else {
+              rslt.push({"d": service.domain, "s": service.service});
+            }
+          } 
+        }
+
+        return rslt;
+      }
+    })
+    .then(function(result) {
+      if (result) {
+        deleteServices = result;
+
+        return rp(getLoginRequest(config));
+      }
+    })
+    .then(function(authHeader){
+      if (authHeader) {
+        
+        return Promise.all(deleteServices.map(function (elem){
+          logger.info(`Ready to submit request for deleting service "${elem.s}" in domain ${elem.d}`);
+          return rp(postServiceDeleteRequest(config, authHeader, elem.d, elem.s));
+        }));
+      }
+    })
+    .then(function(result) {
+      logger.info(`Cleanup result: ${JSON.stringify(result)}`);
+      return cb(null, {message: "Finished running cleanup"});
     })
     .catch(function(err) {
       logger.error(`Error during cleanup ${err}`);
