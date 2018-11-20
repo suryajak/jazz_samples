@@ -7,7 +7,7 @@
   "SERVICE_RETURN_FIELDS": ["service", "domain"],
   "DDB_REGION" : "{JAZZ_REGION}",
   "SERVICE_EXPIRY_HOURS": 48,
-  "JAZZ_SERVICE_HOST": "{JAZZ_API_ENDPOINT}",
+  "JAZZ_SERVICE_ENDPOINT": "{JAZZ_API_ENDPOINT}",
   "JAZZ_LOGIN_API": "/prod/jazz/login",
   "JAZZ_DELETE_API": "/prod/jazz/delete-serverless-service",
   "MAX_SERVICES_TO_DELETE": 5
