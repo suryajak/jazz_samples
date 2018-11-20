@@ -153,3 +153,42 @@ function getWhitelistedServicesMap(whitelistedServices) {
       return map;
     }, {});
 }
+
+/**
+ * gets login request payload
+ * @param {*} configData 
+ */
+function getLoginRequest(configData) {
+  return {
+    uri: configData.JAZZ_SERVICE_ENDPOINT + configData.JAZZ_LOGIN_API,
+    method: 'POST',
+    json: {
+      "username": configData.ADMIN_USERNAME,
+      "password": configData.ADMIN_PASSWORD
+    },
+    rejectUnauthorized: false,
+    transform: function(body, response, resolveWithFullResponse) {
+      return body.data.token; 
+    }
+  };
+}
+
+/**
+ * Gets payload for posting a service delete request
+ * @param {*} configData 
+ * @param {*} authHeader 
+ * @param {*} domain 
+ * @param {*} service 
+ */
+function postServiceDeleteRequest(configData, authHeader, domain, service) {
+  return {
+      uri: configData.JAZZ_SERVICE_ENDPOINT + configData.JAZZ_DELETE_API,
+      headers: {'Authorization': authHeader},
+      method: 'POST',
+      json: {
+        "domain": domain,
+        "service_name": service
+      },
+      rejectUnauthorized: false
+    };
+}
