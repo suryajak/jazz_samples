@@ -14,9 +14,14 @@ module.exports.handler = (event, context, cb) => {
   const errorHandler = errorHandlerModule();
   logger.init(event, context);
 
+  let whitelistedServices;
+
   try {
-    validateInput(config) 
-    .then(function(result) {
+    validateInput(config)
+    .then(() => {
+      whitelistedServices = getWhitelistedServicesMap(config.WHITELIST_SERVICES);
+    })
+    .then(() => {
       return cb(null,  {message: "Finished running cleanup"});
     })
     .catch(function(err) {
@@ -83,3 +88,15 @@ function validateInput(configData) {
     resolve("Validation is successful");
   });
 } 
+
+function getWhitelistedServicesMap(whitelistedServices) {
+  return config.WHITELIST_SERVICES.split(';').map(a => a.split(':')).reduce(function(map, obj) 
+    {
+      if (!map[obj[0]]) {
+        map[obj[0]] = obj[1];
+      }else {
+        map[obj[0]] = map[obj[0]] + ',' + obj[1];
+      } 
+      return map;
+    }, {});
+}
