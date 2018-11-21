@@ -1,14 +1,19 @@
 {
-  "name": "lambda-nodejs-template",
+  "name": "jazz_cleanup",
   "version": "0.0.1",
-  "description": "Nodejs Lambda Template project",
+  "description": "Jazz cleanup service",
   "main": "index.js",
   "private": true,
   "author": [],
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {},
+  "dependencies": {
+    "request": "*",
+    "request-promise-native": "^1.0.5",
+    "moment": "*",
+    "lodash": "*"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^v3.0.0"
