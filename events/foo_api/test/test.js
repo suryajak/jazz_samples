@@ -1,7 +1,7 @@
 const assert = require('chai').assert;
 const index = require('../index');
 
-describe('Sample', () => {
+describe('test api code', () => {
   it('tests handler', (done) => {
 
     // Add your test cases here.

@@ -4,6 +4,15 @@ class router {
         this.routes = {};
     }
 
+    /**
+     * path -> foo 
+     *              -> bar 
+     *              -> testbaz
+     *              -> 
+     * @param {*} method 
+     * @param {*} path 
+     * @param {*} fn 
+     */
     add(method, path, fn) {
         if (!this.routes[method]) {
             this.routes[method] = {};

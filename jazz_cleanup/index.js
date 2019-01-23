@@ -14,7 +14,6 @@ const logger = require("./components/logger.js");
 const errorHandlerModule = require("./components/error-handler.js");
 const dbbUtil = require('./components/ddbScan');
 
-
 module.exports.handler = (event, context, cb) => {
 
   const config = configModule.getConfig(event, context);
