@@ -1,2 +1,2 @@
-# jazz_samples
+# Jazz Samples
 Repository containing Jazz samples 
